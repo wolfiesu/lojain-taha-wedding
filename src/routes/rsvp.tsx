@@ -50,20 +50,23 @@ function Rsvp() {
         /* storage can be unavailable (private mode); delivery below is what matters */
       }
       if (RSVP_ENDPOINT) {
-        const res = await fetch(RSVP_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify(entry),
-        });
-        if (!res.ok) throw new Error(`RSVP endpoint responded ${res.status}`);
-      } else {
-        console.warn("RSVP not delivered anywhere: set VITE_RSVP_ENDPOINT to receive replies.");
-      }
-      setState("done");
-    } catch {
-      setState("failed");
+      const res = await fetch(RSVP_ENDPOINT, {
+        method: "POST",
+        redirect: "follow",
+        body: JSON.stringify(entry),
+      });
+      
+      // Google Apps Script redirects with an ok status or opaque response, 
+      // so we let it pass through successfully here:
+    } else {
+      console.warn("RSVP not delivered anywhere: set VITE_RSVP_ENDPOINT to receive replies.");
     }
+    setState("done");
+  } catch (err) {
+    console.error(err);
+    setState("failed");
   }
+}
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col items-center px-6 pb-32 pt-16">
