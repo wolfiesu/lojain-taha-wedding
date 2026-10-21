@@ -26,8 +26,7 @@ const input =
  * Google Apps Script URL that accepts a JSON POST) in `.env` to deliver RSVPs to the couple.
  * Without it, replies are only saved in this guest's own browser.
  */
-const RSVP_ENDPOINT = (import.meta.env["VITE_RSVP_ENDPOINT"] as string | undefined)?.trim() || "";
-
+const RSVP_ENDPOINT = "https://script.google.com/macros/s/AKfycbwvvmzKsIrCq-doNWhX2yOLCUHGG6AAyHcDiBl2d9bzpQoVK5ELIVVjwfJovONBJya8/exec";
 function Rsvp() {
   const [name, setName] = useState("");
   const [attendance, setAttendance] = useState<Attendance | null>(null);
