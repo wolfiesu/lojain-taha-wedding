@@ -1,0 +1,9 @@
+media/
+Original artwork and music for the Lojain & Taha invitation.
+These are the exact files used on the site: the sage envelope, the LT wax seal,
+the lace-draped car, the classic car, the timeline circles, the botanical sprigs,
+the black-and-white cover photo (cover-lace-car.jpg), and the wedding song
+(wedding-music.m4a).
+
+The website itself loads these from Lovable's hosting, so the copy in this
+folder is your backup of the originals.

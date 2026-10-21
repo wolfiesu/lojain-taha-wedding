@@ -1,0 +1,296 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ivory: var(--ivory);
+  --color-ivory-ink: var(--ivory-ink);
+  --color-sage: var(--sage);
+  --color-olive: var(--olive);
+  --color-antique: var(--antique);
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-display: "Bodoni Moda", "Cormorant Garamond", serif;
+  --font-sans: "Jost", system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.25rem;
+  --background: oklch(0.175 0.008 165);
+  --foreground: oklch(0.77 0.03 105);
+  --card: oklch(0.22 0.008 160);
+  --card-foreground: oklch(0.9 0.02 95);
+  --popover: oklch(0.22 0.008 160);
+  --popover-foreground: oklch(0.9 0.02 95);
+  --primary: oklch(0.93 0.025 95);
+  --primary-foreground: oklch(0.2 0.01 160);
+  --secondary: oklch(0.42 0.04 115);
+  --secondary-foreground: oklch(0.93 0.025 95);
+  --muted: oklch(0.25 0.01 160);
+  --muted-foreground: oklch(0.6 0.03 110);
+  --accent: oklch(0.52 0.05 115);
+  --accent-foreground: oklch(0.95 0.02 95);
+  --destructive: oklch(0.65 0.13 35);
+  --destructive-foreground: oklch(0.97 0.01 95);
+  --border: oklch(0.45 0.035 115 / 55%);
+  --input: oklch(0.5 0.035 115 / 60%);
+  --ring: oklch(0.66 0.05 110);
+  --ivory: oklch(0.945 0.022 95);
+  --ivory-ink: oklch(0.55 0.045 100);
+  --sage: oklch(0.56 0.045 115);
+  --olive: oklch(0.49 0.045 115);
+  --antique: oklch(0.77 0.03 105);
+  --shadow-paper: 0 30px 50px -20px oklch(0 0 0 / 75%), 0 8px 18px -8px oklch(0 0 0 / 60%);
+  --paper-ivory:
+    radial-gradient(circle at 20% 15%, oklch(1 0 0 / 55%), transparent 45%),
+    radial-gradient(circle at 80% 90%, oklch(0.85 0.03 95 / 45%), transparent 50%),
+    var(--ivory);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-serif);
+    overflow-x: hidden;
+  }
+  body {
+    background-image:
+      radial-gradient(ellipse at 50% 0%, oklch(0.24 0.01 160 / 70%), transparent 60%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    min-height: 100dvh;
+  }
+  :focus-visible {
+    outline: 1px solid var(--ring);
+    outline-offset: 3px;
+  }
+}
+
+@utility label-caps {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 400;
+}
+
+@utility title-caps {
+  font-family: var(--font-serif);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 500;
+}
+
+/* Fine-line art captured on near-black: blend so its background disappears */
+@utility art-on-dark {
+  mix-blend-mode: lighten;
+}
+
+/* Soft-fade the edges of captured artwork so no rectangle shows */
+@utility fade-edges {
+  mask-image: radial-gradient(closest-side, #000 70%, transparent 100%);
+}
+
+@utility paper-ivory {
+  background: var(--paper-ivory);
+  box-shadow: var(--shadow-paper);
+}
+
+/* ---------- Envelope ---------- */
+.envelope {
+  --env-w: min(86vw, 360px, calc((100dvh - 330px) * 1.26));
+  --env-h: calc(var(--env-w) * 0.791);
+  position: relative;
+  width: var(--env-w);
+  height: var(--env-h);
+  perspective: 1400px;
+  transition: margin-top 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.envelope[data-open="true"] {
+  margin-top: calc(var(--env-h) * 1.02);
+}
+.envelope-back {
+  position: absolute;
+  inset: 0;
+  background: oklch(0.42 0.035 115);
+  box-shadow: var(--shadow-paper);
+}
+.envelope-back::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, oklch(0 0 0 / 35%), transparent 60%);
+}
+.envelope-art {
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.envelope-pocket {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
+  filter: drop-shadow(0 -2px 3px oklch(0 0 0 / 40%));
+}
+.envelope-flap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 57%;
+  z-index: 30;
+  transform-style: preserve-3d;
+  transform-origin: top center;
+  transition:
+    transform 0.7s cubic-bezier(0.45, 0.05, 0.25, 1),
+    z-index 0s 0.32s;
+}
+.flap-front,
+.flap-back {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flap-front {
+  background-size: 100% calc(100% / 0.57);
+  background-position: top;
+}
+/* Inside of the flap: sage-tinted black-and-white photo (text-free strip of the cover).
+   The face is pre-rotated 180deg, so its clip is inverted to end up base-down at the hinge. */
+.flap-back {
+  transform: rotateX(180deg);
+  clip-path: polygon(0 100%, 100% 100%, 50% 0);
+  background-color: oklch(0.4 0.035 115);
+  background-size: 300% auto;
+  background-position: 18% 100%;
+  box-shadow: inset 0 0 0 100vmax oklch(0.45 0.04 115 / 35%);
+}
+.envelope[data-open="true"] .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 5;
+}
+.card-slot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 3%;
+  top: calc(var(--env-h) * -1.15);
+  overflow: hidden;
+  z-index: 10;
+  pointer-events: none;
+}
+.invite-card {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  bottom: 0;
+  height: calc(var(--env-h) * 1.5);
+  transform: translateY(calc(var(--env-h) * 0.55));
+  transition: transform 0.85s cubic-bezier(0.22, 0.8, 0.3, 1) 0.4s;
+  pointer-events: auto;
+}
+.envelope[data-open="true"] .invite-card {
+  transform: translateY(calc(var(--env-h) * -0.52));
+}
+.envelope-seal {
+  position: absolute;
+  left: 50%;
+  top: 57%;
+  width: 30%;
+  z-index: 40;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 4px 6px oklch(0 0 0 / 45%));
+  transition: transform 0.4s ease;
+}
+.seal-ring {
+  position: absolute;
+  left: 50%;
+  top: 57%;
+  width: 34%;
+  aspect-ratio: 1;
+  z-index: 39;
+  border-radius: 9999px;
+  border: 1px solid oklch(0.85 0.04 105 / 70%);
+  transform: translate(-50%, -50%);
+  animation: seal-ring 2.4s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes seal-ring {
+  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(1.45); opacity: 0; }
+}
+/* Wax seal rides the flap tip (hinged at the flap's top edge) and turns over with it. */
+.flap-seal {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 30%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  filter: drop-shadow(0 4px 6px oklch(0 0 0 / 45%));
+}
+.flap-seal-front {
+  transform: translate(-50%, -50%) translateZ(1px);
+  animation: seal-press 0.25s ease-out both;
+}
+.flap-seal-back {
+  transform: translate(-50%, -50%) rotateX(180deg) translateZ(1px);
+}
+@keyframes seal-press {
+  0% { transform: translate(-50%, -50%) translateZ(1px) scale(1); }
+  100% { transform: translate(-50%, -50%) translateZ(1px) scale(1.06); }
+}
+.envelope-button:hover .envelope-seal {
+  transform: translate(-50%, -50%) scale(1.04);
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@utility animate-fade-up {
+  animation: fade-up 0.8s ease both;
+}
+@keyframes soft-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+@utility animate-soft-pulse {
+  animation: soft-pulse 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    animation-duration: 0.01ms !important;
+  }
+}
