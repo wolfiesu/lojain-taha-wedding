@@ -300,3 +300,17 @@
     animation-duration: 0.01ms !important;
   }
 }
+/* === MOBILE SEAL FIX ONLY === */
+@media (max-width: 768px) {
+  .envelope[data-open="true"] .envelope-flap {
+    transform: rotateX(165deg); 
+  }
+  
+  .flap-seal {
+    transform: translate(-50%, -70%) translateZ(1px);
+  }
+
+  .flap-seal-back {
+    transform: translate(-50%, -70%) rotateX(180deg) translateZ(1px);
+  }
+}
