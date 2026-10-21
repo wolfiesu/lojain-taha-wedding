@@ -46,15 +46,20 @@ export function Envelope({ open, onOpen }: { open: boolean; onOpen: () => void }
         )}
       </div>
       {!open && (
-        <button
-          type="button"
-          onClick={onOpen}
-          aria-label="Open the invitation envelope"
-          className="envelope-button absolute inset-0 z-50 cursor-pointer"
-        >
-          <span className="seal-ring" aria-hidden />
-          <WaxSeal className="envelope-seal" />
-        </button>
+       <button
+        type="button"
+        onClick={() => {
+          if (!open) onOpen();
+        }}
+        disabled={open}
+        tabIndex={open ? -1 : 0}
+        aria-hidden={open}
+        aria-label="Open the invitation envelope"
+        className="envelope-button absolute inset-0 z-50 cursor-pointer"
+      >
+        <span className="seal-ring" aria-hidden />
+        <WaxSeal className="envelope-seal" />
+      </button>
       )}
     </div>
   );
